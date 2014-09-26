@@ -4,6 +4,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.*;
+import android.view.*;
+import android.content.Intent;
+
+
 
 
 public class MainActivity extends ActionBarActivity {
@@ -11,7 +16,16 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.logscreen);
+        setContentView(R.layout.activity_main);
+        
+        Button myButton = (Button) findViewById(R.id.downButton);
+        myButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	Intent myIntent = new Intent(getApplicationContext(), DownloadActivity.class);
+    			startActivityForResult(myIntent, 0);
+            }
+        });
+
     }
 
 
@@ -29,6 +43,7 @@ public class MainActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+        	
             return true;
         }
         return super.onOptionsItemSelected(item);
