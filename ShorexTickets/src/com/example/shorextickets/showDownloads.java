@@ -9,9 +9,14 @@ import android.widget.*;
 import android.view.*;
 import android.app.Activity;
 import android.content.Intent;
+import android.app.ProgressDialog;
+
+
 
 public class showDownloads extends Activity{
-	   @Override
+	
+	
+	@Override
 	    public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.show_downloads);
@@ -19,9 +24,6 @@ public class showDownloads extends Activity{
 	        Button backMain = (Button) findViewById(R.id.buttonMainBack);
 	        backMain.setOnClickListener(new View.OnClickListener() {
 	            public void onClick(View v) {
-	            	
-	            	
-	            	
 	            	Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
 	    			startActivityForResult(myIntent, 0);
 	            }
