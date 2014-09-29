@@ -2,6 +2,7 @@ package com.example.shorextickets;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,11 +16,14 @@ import android.app.ProgressDialog;
 
 public class showDownloads extends Activity{
 	
-	
 	@Override
 	    public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.show_downloads);
+	        Log.v("FC", "Show Downloads "  );
+	        Intent intent = getIntent();
+	        String message = intent.getStringExtra("response");
+	        ((TextView)findViewById(R.id.textDownload)).setText(message);
 	        
 	        Button backMain = (Button) findViewById(R.id.buttonMainBack);
 	        backMain.setOnClickListener(new View.OnClickListener() {

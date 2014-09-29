@@ -1,0 +1,93 @@
+package com.example.shorextickets;
+
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
+import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.*;
+import android.view.*;
+import android.app.Activity;
+import android.content.Intent;
+
+public class DownloadActivity extends Activity{
+	EditText etEmail;
+	EditText etOrder;   
+	
+		@Override
+	    public void onCreate(Bundle savedInstanceState) {
+	        super.onCreate(savedInstanceState);
+	        setContentView(R.layout.logscreen);
+	        EditText email;
+	        EditText order;
+	        
+	        Button searchButton = (Button) findViewById(R.id.buttonSearch);
+	        searchButton.setOnClickListener(new View.OnClickListener() {
+	            public void onClick(View v) {
+	            	email = (EditText) findViewById(R.id.email);
+	                order= (EditText) findViewById(R.id.ordercode);
+	            	String urlParameters = "email="+email+"&param2="+order;
+	            	String request = "http://example.com/index.php";
+	            	URL url = new URL(request); 
+	            	HttpURLConnection connection = (HttpURLConnection) url.openConnection();           
+	            	connection.setDoOutput(true);
+	            	connection.setDoInput(true);
+	            	connection.setInstanceFollowRedirects(false); 
+	            	connection.setRequestMethod("POST"); 
+	            	connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded"); 
+	            	connection.setRequestProperty("charset", "utf-8");
+	            	connection.setRequestProperty("Content-Length", "" + Integer.toString(urlParameters.getBytes().length));
+	            	connection.setUseCaches (false);
+
+	            	DataOutputStream wr = new DataOutputStream(connection.getOutputStream ());
+	            	wr.writeBytes(urlParameters);
+	            	wr.flush();
+	            	wr.close();
+	            	connection.disconnect();
+	            	
+	            	
+	            
+	            }
+	        });
+	    }
+	    @Override
+	    protected void onStart() {
+	        super.onStart();
+	        // The activity is about to become visible.
+	    }
+	    @Override
+	    protected void onResume() {
+	        super.onResume();
+	        // The activity has become visible (it is now "resumed").
+	    }
+	    @Override
+	    protected void onPause() {
+	        super.onPause();
+	        // Another activity is taking focus (this activity is about to be "paused").
+	    }
+	    @Override
+	    protected void onStop() {
+	        super.onStop();
+	        // The activity is no longer visible (it is now "stopped")
+	    }
+	    @Override
+	    protected void onDestroy() {
+	        super.onDestroy();
+	        // The activity is about to be destroyed.
+	    }
+	}
