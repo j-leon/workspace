@@ -83,8 +83,10 @@ public class DownloadActivity extends Activity{
             	url=new URL("http://www.shoreexcursioneer.com/tickets/index.php");
 
             	
-            	String param="email=" + URLEncoder.encode("nahummartinez.tts@gmail.com","UTF-8")+
-            	"&order="+URLEncoder.encode("217691","UTF-8");
+            	//String param="email=" + URLEncoder.encode("nahummartinez.tts@gmail.com","UTF-8")+
+            	//"&order="+URLEncoder.encode("217691","UTF-8");
+            	String param="email=" + URLEncoder.encode("christistroble@yahoo.com","UTF-8")+
+                 "&order="+URLEncoder.encode("217657","UTF-8");
 
             	conn=(HttpURLConnection)url.openConnection();
                 conn.setDoOutput(true);
@@ -136,29 +138,7 @@ public class DownloadActivity extends Activity{
 	        }
 	       
 	    		
-	       public void parseJSON() throws JSONException {
-	        	JSONObject jsonObject = new JSONObject(JsonResponse);
 	     
-	            JSONObject object = jsonObject.getJSONObject("FirstObject");
-	            String attr1 = object.getString("attr1");
-	            String attr2 = object.getString("attr2");
-	     
-	            strParsedValue = "Attribute 1 value => " + attr1;
-	            strParsedValue += "\n Attribute 2 value => " + attr2;
-	     
-	            JSONObject subObject = object.getJSONObject("sub");
-	            JSONArray subArray = subObject.getJSONArray("sub1");
-	     
-	            strParsedValue += "\n Array Length => " + subArray.length();
-	     
-	            for (int i = 0; i < subArray.length(); i++) {
-	                strParsedValue += "\n"
-	                        + subArray.getJSONObject(i).getString("sub1_attr")
-	                                .toString();
-	            }
-	     
-	            txtViewParsedValue.setText(strParsedValue);
-	        }
 	    @Override
 	    protected void onStart() {
 	        super.onStart();
