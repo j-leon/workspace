@@ -17,12 +17,21 @@
         android:layout_gravity="center"
         android:text="@string/textDownload" />
 
-    <ListView
-        android:id="@+id/listViewDownload"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-    </ListView>
-    
+    <LinearLayout
+        android:id="@+id/infozone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+  
+	    <ListView
+	        android:id="@+id/listViewDownload"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" 
+	        android:dividerHeight="5sp"
+	    >
+	        
+	    </ListView>
+    </LinearLayout>
     <Button
         android:id="@+id/buttonMainBack"
         android:layout_width="match_parent"

@@ -83,10 +83,10 @@ public class DownloadActivity extends Activity{
             	url=new URL("http://www.shoreexcursioneer.com/tickets/index.php");
 
             	
-            	//String param="email=" + URLEncoder.encode("nahummartinez.tts@gmail.com","UTF-8")+
-            	//"&order="+URLEncoder.encode("217691","UTF-8");
-            	String param="email=" + URLEncoder.encode("christistroble@yahoo.com","UTF-8")+
-                 "&order="+URLEncoder.encode("217657","UTF-8");
+            	String param="email=" + URLEncoder.encode("nahummartinez.tts@gmail.com","UTF-8")+
+            	"&order="+URLEncoder.encode("217691","UTF-8");
+            /*	String param="email=" + URLEncoder.encode("christistroble@yahoo.com","UTF-8")+
+                 "&order="+URLEncoder.encode("217657","UTF-8");*/
 
             	conn=(HttpURLConnection)url.openConnection();
                 conn.setDoOutput(true);

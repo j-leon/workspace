@@ -1,7 +1,11 @@
 package com.example.shorextickets;
 
+import java.io.File;
+
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.*;
@@ -17,6 +21,12 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
+            Log.d("MyApp", "No SDCARD");
+        } else {
+        File directory = new File(Environment.getExternalStorageDirectory()+File.separator+"Shore Excursioneer Tickets");
+        directory.mkdirs();
+        }
         
         Button myButton = (Button) findViewById(R.id.downButton);
         myButton.setOnClickListener(new View.OnClickListener() {
