@@ -30,7 +30,26 @@
                 android:singleLine="true"
                 android:id="@+id/orderCode"
           		android:inputType="text"/>
-                
+	
+          <TextView
+              android:id="@+id/emptyWarning"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:text="@string/emptyWarning"
+              android:textColor="#d00"
+              android:textSize="16sp"
+              android:visibility="gone" />
+          
+          <TextView
+              android:id="@+id/wrongWarning"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:text="@string/wrongWarning"
+              android:textColor="#d00"
+              android:textSize="16sp"
+              android:visibility="gone" />
 
           <Button 
                 android:layout_width="fill_parent"

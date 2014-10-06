@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+        
+    	<TextView android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#372c24"
+                android:text="@string/e_mail"
+                android:layout_marginTop="25dip"/>
+                
+        <EditText android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:layout_marginBottom="20dip"
+                android:singleLine="true"
+                android:inputType= "text"
+                android:id="@+id/email"/>
+                
+           <TextView android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#372c24"
+                android:text="@string/orderNumber"/>
+                
+          <EditText android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:singleLine="true"
+                android:id="@+id/orderCode"
+          		android:inputType="text"/>
+	
+          <TextView
+              android:id="@+id/emptyWarning"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:text="@string/emptyWarning"
+              android:textColor="#d00"
+              android:textSize="16sp"
+              android:visibility="visible" />
+          
+          <TextView
+              android:id="@+id/wrongWarning"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:text="@string/wrongWarning"
+              android:textColor="#dd0000"
+              android:textSize="16sp"
+              android:visibility="visible" />
+
+          <Button 
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dip"
+                android:text="@string/logButton"
+                android:id="@+id/buttonSearch"/>
+     
+</LinearLayout>

@@ -1,5 +1,6 @@
 package com.example.shorextickets;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -65,10 +66,22 @@ public class showDownloads extends Activity{
 	        // When clicked, show a toast with the TextView text
 	        	downId = status.get(position);
 	        	downName= excursions.get(position);
-	       	//Toast.makeText(getApplicationContext(), "HAz hecho click" + downId, Toast.LENGTH_SHORT).show();
-	        	String url = "http://www.shoreexcursioneer.com/imgs/the_water_park_is_included_484-22.jpg";
-	        	String title = downName;
-	        	downloadItem(url ,title);
+	        	if (downId.equals("Pending")){
+	        		Toast.makeText(getApplicationContext(), "This ticket is not available.", Toast.LENGTH_LONG).show();
+	        		}
+	        	else{
+	        		Toast.makeText(getApplicationContext(), "Downloading Started", Toast.LENGTH_LONG).show();
+	        		int c = downId.indexOf(":");
+	        		int b = downId.indexOf("-");
+	        		String order = downId.substring(c+1, b);
+	        		String ticket = downId.substring(b+1);
+	        		String url = "http://www.shoreexcursioneer.com/?tt" + order + "=" + ticket;
+	        		Log.v("SHUS", "URL: " + url);
+		        	String title = order + "_" + ticket + "_" + downName;
+		        	
+		        	downloadItem(url ,title);
+	        	}
+	        	
 	        	
 	        
 	        }
@@ -168,7 +181,11 @@ public class showDownloads extends Activity{
 	        	    request.allowScanningByMediaScanner();
 	        	    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 	        	}*/
-	        	request.setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES, title + ".jpg" );
+	        	File dirF = getFilesDir();
+	        	String dir = dirF.getAbsolutePath();
+	        	Log.v("DM", "Dir: " + dir);
+	        	
+	        	request.setDestinationInExternalPublicDir(dir, title + ".jpg" );
 
 	        	// get download service and enqueue file
 	        	DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
@@ -176,29 +193,5 @@ public class showDownloads extends Activity{
 	        	
 		 }
 		 
-		 @Override
-	    protected void onStart() {
-	        super.onStart();
-	        // The activity is about to become visible.
-	    }
-	    @Override
-	    protected void onResume() {
-	        super.onResume();
-	        // The activity has become visible (it is now "resumed").
-	    }
-	    @Override
-	    protected void onPause() {
-	        super.onPause();
-	        // Another activity is taking focus (this activity is about to be "paused").
-	    }
-	    @Override
-	    protected void onStop() {
-	        super.onStop();
-	        // The activity is no longer visible (it is now "stopped")
-	    }
-	    @Override
-	    protected void onDestroy() {
-	        super.onDestroy();
-	        // The activity is about to be destroyed.
-	    }
+
 	}

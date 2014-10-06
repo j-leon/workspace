@@ -42,25 +42,38 @@ import org.json.JSONObject;
 
 public class DownloadActivity extends Activity{
 	EditText etEmail;
-	EditText etOrder;   
+	EditText etOrder;
+	private TextView eWarning;
+    private TextView wWarning;
 	private String JsonResponse;
 	String strParsedValue = null;
 	TextView txtViewParsedValue;
 	static DownloadTextURLTask avisotask;
+	Activity thisActivity =this;
 		@Override
 	    public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.logscreen);
-	        
-	        
+	        final TextView eWarning = (TextView) findViewById(R.id.emptyWarning);
+	        final TextView wWarning = (TextView) findViewById(R.id.wrongWarning);
 	        
 	        
 	        Button searchButton = (Button) findViewById(R.id.buttonSearch);
 	        searchButton.setOnClickListener(new View.OnClickListener() {
 	            public void onClick(View v) {
-	      	  avisotask = new DownloadTextURLTask();
-	      	  avisotask.execute(new String[]{});
-	      	
+	            	eWarning.setVisibility(8);
+	            	wWarning.setVisibility(8);
+	            	etEmail= (EditText) findViewById(R.id.email);
+	            	String stEmail = etEmail.getText().toString();
+	            	etOrder= (EditText) findViewById(R.id.orderCode);
+	            	String stOrder = etOrder.getText().toString();
+	            	if (stEmail.equals("") || stOrder.equals("")){
+	            		eWarning.setVisibility(0);
+	            		//Toast.makeText(DownloadActivity.this, "Both Fields are Required", Toast.LENGTH_LONG).show();
+	            	}else{
+		            	avisotask = new DownloadTextURLTask();
+		            	avisotask.execute(new String[]{});
+	            	} 
 	      	  
 	      	  
 	          }});
@@ -81,12 +94,12 @@ public class DownloadActivity extends Activity{
             	try{
             	
             	url=new URL("http://www.shoreexcursioneer.com/tickets/index.php");
-
             	
+            	
+            	/*String param="email=" + URLEncoder.encode(etEmail.getText().toString(),"UTF-8")+
+            	"&order="+URLEncoder.encode(etOrder.getText().toString(),"UTF-8");*/
             	String param="email=" + URLEncoder.encode("nahummartinez.tts@gmail.com","UTF-8")+
-            	"&order="+URLEncoder.encode("217691","UTF-8");
-            /*	String param="email=" + URLEncoder.encode("christistroble@yahoo.com","UTF-8")+
-                 "&order="+URLEncoder.encode("217657","UTF-8");*/
+                 "&order="+URLEncoder.encode("217691","UTF-8");
 
             	conn=(HttpURLConnection)url.openConnection();
                 conn.setDoOutput(true);
@@ -128,11 +141,17 @@ public class DownloadActivity extends Activity{
 	        	protected void onPostExecute(String result) {
 	        		 super.onPostExecute(result);
 	        		 Log.v("FC", "jSONResponse: " + JsonResponse );
+	        		 String error ="{\"Response\":\"Email Address or Order Number not valid\"}";
+	        		 if (JsonResponse.equals(error)){
+	        			 final TextView wWarning = (TextView) findViewById(R.id.wrongWarning);
+	        			 wWarning.setVisibility(0);
+	        			//Toast.makeText(DownloadActivity.this, "No results for this E-mail and order combination.", Toast.LENGTH_LONG).show(); 
+	        		 }else{
 	      	      	 Intent myIntent = new Intent(getApplicationContext(), showDownloads.class);
 	      	      	 myIntent.putExtra("response", JsonResponse);
 	      	      	 startActivityForResult(myIntent, 0);
 	            }
-				
+	        	}
 					
 
 	        }
