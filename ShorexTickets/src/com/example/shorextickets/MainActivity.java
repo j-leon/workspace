@@ -37,7 +37,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         ticketslist = (ListView)findViewById(R.id.listView1);
         
-        showCurrentTickets();
+       showCurrentTickets();
         
         
       ticketslist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -66,8 +66,12 @@ public class MainActivity extends ActionBarActivity {
     	
     	String oTickets,name;
     	URI dir;
-    	String path = Environment.getExternalStorageDirectory().getAbsolutePath() + getFilesDir().getAbsolutePath();
+    	String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "SEE_Tickets";
     	File dirF = new File(path);
+    	if (!dirF.exists()){
+    		dirF.mkdir();
+    	}
+    	
     	Log.v("MA.SCT", path);    	
     	File[] files = dirF.listFiles();
     	int sFiles = files.length;

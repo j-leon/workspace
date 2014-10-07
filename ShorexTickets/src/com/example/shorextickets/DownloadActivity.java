@@ -34,6 +34,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import android.view.*;
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
 import org.json.JSONArray;
@@ -56,16 +58,23 @@ public class DownloadActivity extends Activity{
 	        setContentView(R.layout.logscreen);
 	        final TextView eWarning = (TextView) findViewById(R.id.emptyWarning);
 	        final TextView wWarning = (TextView) findViewById(R.id.wrongWarning);
-	        
+	        etEmail= (EditText) findViewById(R.id.email);
+	        etOrder= (EditText) findViewById(R.id.orderCode);
+	        AccountManager accountManager =AccountManager.get(this);
+	        Account account = getAccount(accountManager);
+	       
+	        if (!(account == null)){
+	        	etEmail.setText(account.name);	
+	        }
 	        
 	        Button searchButton = (Button) findViewById(R.id.buttonSearch);
 	        searchButton.setOnClickListener(new View.OnClickListener() {
 	            public void onClick(View v) {
 	            	eWarning.setVisibility(8);
 	            	wWarning.setVisibility(8);
-	            	etEmail= (EditText) findViewById(R.id.email);
+	            	
 	            	String stEmail = etEmail.getText().toString();
-	            	etOrder= (EditText) findViewById(R.id.orderCode);
+	            	
 	            	String stOrder = etOrder.getText().toString();
 	            	if (stEmail.equals("") || stOrder.equals("")){
 	            		eWarning.setVisibility(0);
@@ -96,10 +105,10 @@ public class DownloadActivity extends Activity{
             	url=new URL("http://www.shoreexcursioneer.com/tickets/index.php");
             	
             	
-            	/*String param="email=" + URLEncoder.encode(etEmail.getText().toString(),"UTF-8")+
-            	"&order="+URLEncoder.encode(etOrder.getText().toString(),"UTF-8");*/
-            	String param="email=" + URLEncoder.encode("nahummartinez.tts@gmail.com","UTF-8")+
-                 "&order="+URLEncoder.encode("217691","UTF-8");
+            	String param="email=" + URLEncoder.encode(etEmail.getText().toString(),"UTF-8")+
+            	"&order="+URLEncoder.encode(etOrder.getText().toString(),"UTF-8");
+            	/*String param="email=" + URLEncoder.encode("nahummartinez.tts@gmail.com","UTF-8")+
+                 "&order="+URLEncoder.encode("217691","UTF-8");*/
 
             	conn=(HttpURLConnection)url.openConnection();
                 conn.setDoOutput(true);
@@ -156,7 +165,17 @@ public class DownloadActivity extends Activity{
 
 	        }
 	       
-	    		
+	   private static Account getAccount(AccountManager accountManager){
+		   Account[] accounts = accountManager.getAccountsByType("com.google");
+		   Account account;
+		   if (accounts.length > 0){
+			   account = accounts[0];
+		   }
+		   else{
+			   account= null;
+		   }
+		   return account;
+	   }
 	     
 	    @Override
 	    protected void onStart() {
