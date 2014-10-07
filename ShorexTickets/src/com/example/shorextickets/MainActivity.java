@@ -2,16 +2,19 @@ package com.example.shorextickets;
 
 import java.io.File;
 import java.lang.reflect.Array;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import android.support.v7.app.ActionBarActivity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.*;
 import android.view.*;
 import android.app.Activity;
@@ -23,19 +26,30 @@ import android.content.Intent;
 public class MainActivity extends ActionBarActivity {
 	ListView ticketslist; 
 	Activity thisActivity = this;
+	URI openPath;
+	List<String> names = new ArrayList<String>();
+	List<URI> dirs = new ArrayList<URI>();
+	List<String> orderTickets = new ArrayList<String>();
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ticketslist = (ListView)findViewById(R.id.listView1);
-        if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-            Log.d("MyApp", "No SDCARD");
-        } else {
-        File directory = new File(Environment.getExternalStorageDirectory()+ File.separator + "SEE_Tickets");
-        directory.mkdirs();
-        }
+        
         showCurrentTickets();
+        
+        
+      ticketslist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+	        public void onItemClick(AdapterView <? > arg0, View view, int position, long id) {
+	        // When clicked, show a toast with the TextView text
+	        	openPath = dirs.get(position);
+	        	Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
+	        	intent.setDataAndType(Uri.parse(openPath.toString()),"image/*");
+	        	startActivity(intent);
+	        }
+	   });
+        
         
         Button myButton = (Button) findViewById(R.id.downButton);
         myButton.setOnClickListener(new View.OnClickListener() {
@@ -49,10 +63,9 @@ public class MainActivity extends ActionBarActivity {
 
     
     public void showCurrentTickets(){
-    	List<String> names = new ArrayList<String>();
-    	List<String> dirs = new ArrayList<String>();
-    	List<String> orderTickets = new ArrayList<String>();
-    	String dir,name;
+    	
+    	String oTickets,name;
+    	URI dir;
     	String path = Environment.getExternalStorageDirectory().getAbsolutePath() + getFilesDir().getAbsolutePath();
     	File dirF = new File(path);
     	Log.v("MA.SCT", path);    	
@@ -62,14 +75,17 @@ public class MainActivity extends ActionBarActivity {
     	if (sFiles > 0){
     		for (File inFile : files){
     			
-    			dir = inFile.getAbsolutePath();
+    			dir = inFile.toURI();
     			name = inFile.getName();
-    			String[] data = cleanNames(name);
+    			String[] data = cleanNames(name); 
+    			Log.v("MADA", "Data: " + data);
     			names.add(data[2]);
-    			orderTickets.add(data[0] + " - " + data[1]);
+    			orderTickets.add("Order: " + data[0] + " - Ticket: " + data[1]);
     			Log.v("MADA", "orderTickets: " + orderTickets);
     			dirs.add(dir);
+    			
     		}
+    		Log.v("MADA", "dirs: " + dirs);
     		Log.v("MA.SCT", names + " , " + dirs);
     		int c = names.size();
     		ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
@@ -77,14 +93,14 @@ public class MainActivity extends ActionBarActivity {
     		for(int i = 0; i < c ; i++ ){
     			map = new HashMap<String, String>();
     			name = (String) names.get(i) ;
-    			dir = (String) orderTickets.get(i);
+    			oTickets = (String) orderTickets.get(i);
     			map.put("names",name);
-    			map.put("dirs",dir);
+    			map.put("oTickets",oTickets);
     			mylist.add(map);
     		}
     		Log.v("MA.SCT", "Mapa: " + map);
     		Log.v("MA.SCT", "Lista: " + mylist);
-    		SimpleAdapter mTickets = new SimpleAdapter(this, mylist, R.layout.lv_item, new String[] {"names", "dirs"}, new int[] {R.id.excursion, R.id.status}){
+    		SimpleAdapter mTickets = new SimpleAdapter(this, mylist, R.layout.lv_item, new String[] {"names", "oTickets"}, new int[] {R.id.excursion, R.id.status}){
 
     			public boolean isEnabled(int pos){
     				return true;
@@ -95,14 +111,13 @@ public class MainActivity extends ActionBarActivity {
     }
     	
     public String[] cleanNames(String name){
-    	String[] data = new String[2];
-    	int o =name.indexOf("_");
-    	int t = name.indexOf("_", o);
+    	String[] data = new String[3];
+    	int o = name.indexOf("_");
+    	int t = name.indexOf("_", o+1);
     	int n = name.indexOf(".");
     	data[0] = name.substring(0, o);
     	data[1] = name.substring(o+1, t);
-    	data[2] = name.substring(t+1, n);
-    	Log.v("MADA", "Data: " + data);
+     	data[2] = name.substring(t+1,n); 
     	return data;
     }
     	
