@@ -12,4 +12,5 @@
 	<string name="buttonMainBack">Back To Main Screen</string>
 	<string name="wrongWarning">No results for this E-mail and order combination.</string>
 	<string name="emptyWarning">Both Fields are Required</string>
+	<string name="refresh">Refresh</string>
 </resources>

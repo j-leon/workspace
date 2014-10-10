@@ -46,4 +46,8 @@
 <fullyQualifiedTypeName name="android.content.Intent"/>
 <fullyQualifiedTypeName name="android.net.Uri"/>
 <fullyQualifiedTypeName name="java.util.Arrays"/>
+<fullyQualifiedTypeName name="android.accounts.Account"/>
+<fullyQualifiedTypeName name="android.accounts.AccountManager"/>
+<fullyQualifiedTypeName name="com.example.shorextickets.R.menu"/>
+<fullyQualifiedTypeName name="com.example.shorextickets.DownloadActivity"/>
 </qualifiedTypeNameHistroy>

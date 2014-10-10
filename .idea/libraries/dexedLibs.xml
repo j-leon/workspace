@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="dexedLibs">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/ShorexTickets/bin/dexedLibs/appcompat_v7-f0bca4f00b7bf6c296fd12d55b429460.jar!/" />
+      <root url="jar://$PROJECT_DIR$/ShorexTickets/bin/dexedLibs/android-support-v7-appcompat-4d9aec3a6d60e966ecbfe00a35a9e613.jar!/" />
+      <root url="jar://$PROJECT_DIR$/ShorexTickets/bin/dexedLibs/android-support-v4-140ab0d92b8976596dfbda27d4420945.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

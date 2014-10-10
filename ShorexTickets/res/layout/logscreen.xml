@@ -2,14 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="25dp"
     android:orientation="vertical" >
-
         
-    	<TextView android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#372c24"
-                android:text="@string/e_mail"
-                android:layout_marginTop="25dip"/>
+    	<TextView
+    	    android:layout_width="fill_parent"
+    	    android:layout_height="wrap_content"
+    	    android:layout_marginTop="25dip"
+    	    android:text="@string/e_mail"
+    	    android:textColor="#372c24"
+    	    android:textSize="16sp" />
                 
         <EditText android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -19,17 +21,20 @@
                 android:inputType= "text"
                 android:id="@+id/email"/>
                 
-           <TextView android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#372c24"
-                android:text="@string/orderNumber"/>
+           <TextView
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:text="@string/orderNumber"
+               android:textColor="#372c24"
+               android:textSize="16sp" />
                 
-          <EditText android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dip"
-                android:singleLine="true"
-                android:id="@+id/orderCode"
-          		android:inputType="text"/>
+          <EditText
+              android:id="@+id/orderCode"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="5dip"
+              android:inputType="text"
+              android:singleLine="true" />
 	
           <TextView
               android:id="@+id/emptyWarning"
@@ -51,11 +56,11 @@
               android:textSize="16sp"
               android:visibility="gone" />
 
-          <Button 
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dip"
-                android:text="@string/logButton"
-                android:id="@+id/buttonSearch"/>
+          <Button
+              android:id="@+id/buttonSearch"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              
+              android:text="@string/logButton" />
      
 </LinearLayout>

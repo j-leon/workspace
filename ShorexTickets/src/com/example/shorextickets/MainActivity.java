@@ -6,7 +6,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import android.support.v7.app.ActionBarActivity;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,132 +19,125 @@ import android.view.*;
 import android.app.Activity;
 import android.content.Intent;
 
-
-
-
 public class MainActivity extends ActionBarActivity {
-	ListView ticketslist; 
-	Activity thisActivity = this;
-	URI openPath;
-	List<String> names = new ArrayList<String>();
-	List<URI> dirs = new ArrayList<URI>();
-	List<String> orderTickets = new ArrayList<String>();
-	
+    ListView ticketslist; 
+    Activity thisActivity = this;
+    URI openPath;
+    List<String> names = new ArrayList<String>();
+    List<URI> dirs = new ArrayList<URI>();
+    List<String> orderTickets = new ArrayList<String>();
+    private Menu refreshMenu;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //set the layout
         setContentView(R.layout.activity_main);
         ticketslist = (ListView)findViewById(R.id.listView1);
+       
+        //fill the listview
+        showCurrentTickets();
         
-       showCurrentTickets();
+        //setting the action for the listview item click       
+        ticketslist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView <? > arg0, View view, int position, long id) {
+                //when clicked opens the img file, with the preferred app for the device, or show an app selector.
+                openPath = dirs.get(position);
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
+                intent.setDataAndType(Uri.parse(openPath.toString()),"image/*");
+                startActivity(intent);
+            }
+        });
         
-        
-      ticketslist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-	        public void onItemClick(AdapterView <? > arg0, View view, int position, long id) {
-	        // When clicked, show a toast with the TextView text
-	        	openPath = dirs.get(position);
-	        	Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
-	        	intent.setDataAndType(Uri.parse(openPath.toString()),"image/*");
-	        	startActivity(intent);
-	        }
-	   });
-        
-        
+        //configures the button that directs to the search activity (DownloadActivity)
         Button myButton = (Button) findViewById(R.id.downButton);
         myButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-            	Intent myIntent = new Intent(getApplicationContext(), DownloadActivity.class);
-    			startActivityForResult(myIntent, 0);
+                Intent myIntent = new Intent(getApplicationContext(), DownloadActivity.class);
+                startActivityForResult(myIntent, 0);
             }
         });
-
     }
 
-    
     public void showCurrentTickets(){
-    	
-    	String oTickets,name;
-    	URI dir;
-    	String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "SEE_Tickets";
-    	File dirF = new File(path);
-    	if (!dirF.exists()){
-    		dirF.mkdir();
-    	}
-    	
-    	Log.v("MA.SCT", path);    	
-    	File[] files = dirF.listFiles();
-    	int sFiles = files.length;
-    	Log.v("MA.SCT", "Size: " + sFiles);
-    	if (sFiles > 0){
-    		for (File inFile : files){
-    			
-    			dir = inFile.toURI();
-    			name = inFile.getName();
-    			String[] data = cleanNames(name); 
-    			Log.v("MADA", "Data: " + data);
-    			names.add(data[2]);
-    			orderTickets.add("Order: " + data[0] + " - Ticket: " + data[1]);
-    			Log.v("MADA", "orderTickets: " + orderTickets);
-    			dirs.add(dir);
-    			
-    		}
-    		Log.v("MADA", "dirs: " + dirs);
-    		Log.v("MA.SCT", names + " , " + dirs);
-    		int c = names.size();
-    		ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
-    		HashMap<String, String> map = new HashMap<String, String>();
-    		for(int i = 0; i < c ; i++ ){
-    			map = new HashMap<String, String>();
-    			name = (String) names.get(i) ;
-    			oTickets = (String) orderTickets.get(i);
-    			map.put("names",name);
-    			map.put("oTickets",oTickets);
-    			mylist.add(map);
-    		}
-    		Log.v("MA.SCT", "Mapa: " + map);
-    		Log.v("MA.SCT", "Lista: " + mylist);
-    		SimpleAdapter mTickets = new SimpleAdapter(this, mylist, R.layout.lv_item, new String[] {"names", "oTickets"}, new int[] {R.id.excursion, R.id.status}){
-
-    			public boolean isEnabled(int pos){
-    				return true;
-    			}
-    		};
-    		ticketslist.setAdapter(mTickets);
-    	}
+        String oTickets,name;
+        URI dir;
+        //verifies if the app file folder exists, if not, it makes it
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "SEE_Tickets";
+        File dirF = new File(path);
+        if (!dirF.exists()){
+            dirF.mkdir();
+        }
+        
+        //lists the files in the dir, and prepares the strings to display the file data             
+        File[] files = dirF.listFiles();
+        int sFiles = files.length;
+        if (sFiles > 0){
+            for (File inFile : files){
+                dir = inFile.toURI();
+                name = inFile.getName();
+                String[] data = cleanNames(name); 
+                names.add(data[2]);
+                orderTickets.add("Order: " + data[0] + " - Ticket: " + data[1]);
+                dirs.add(dir);
+                
+            }
+           
+            //prepares the hashmap for the simpleAdapter, and then asigns the adapter to the listview
+            int c = names.size();
+            ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
+            HashMap<String, String> map = new HashMap<String, String>();
+            for(int i = 0; i < c ; i++ ){
+                map = new HashMap<String, String>();
+                name = (String) names.get(i) ;
+                oTickets = (String) orderTickets.get(i);
+                map.put("names",name);
+                map.put("oTickets",oTickets);
+                mylist.add(map);
+            }
+            SimpleAdapter mTickets = new SimpleAdapter(this, mylist, R.layout.lv_item, new String[] {"names", "oTickets"}, new int[] {R.id.excursion, R.id.status}){
+                public boolean isEnabled(int pos){
+                    return true;
+                }
+            };
+            ticketslist.setAdapter(mTickets);
+        }
     }
-    	
+    
+    //meant to create the strings for name, order and ticket from the filename    
     public String[] cleanNames(String name){
-    	String[] data = new String[3];
-    	int o = name.indexOf("_");
-    	int t = name.indexOf("_", o+1);
-    	int n = name.indexOf(".");
-    	data[0] = name.substring(0, o);
-    	data[1] = name.substring(o+1, t);
-     	data[2] = name.substring(t+1,n); 
-    	return data;
-    }
-    	
-    	
-    	
-    	
+        String[] data = new String[3];
+        int o = name.indexOf("_");
+        int t = name.indexOf("_", o+1);
+        int n = name.indexOf(".");
+        data[0] = name.substring(0, o);
+        data[1] = name.substring(o+1, t);
+        data[2] = name.substring(t+1,n); 
+        return data;
 
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+        this.refreshMenu = menu;
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-        	
-            return true;
+        if (id == R.id.refresh) {
+        	if(names.isEmpty() && dirs.isEmpty() && orderTickets.isEmpty()){
+        		showCurrentTickets();
+            }
+            else{
+            	names.clear(); 
+            	dirs.clear();
+            	orderTickets.clear();
+            	showCurrentTickets();
+            }
+            
         }
         return super.onOptionsItemSelected(item);
     }
